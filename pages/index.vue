@@ -1,73 +1,104 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        blog-nuxt
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
+  <div>
+    <el-row
+      type="flex"
+      justify="space-between"
+    >
+      <!-- 左侧 -->
+      <el-col
+        class="hidden-sm-and-down"
+        :md="3"
+      >
+        <el-divider content-position="left">技术频道</el-divider>
+        <el-menu
+          :default-active="$route.path"
+          active-text-color="#ffffff"
+          router
         >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
+          <el-menu-item index="/">
+            推荐
+          </el-menu-item>
+          <el-menu-item
+            v-for="item in categoryList"
+            :key="item.id"
+            :index="'/'+item.id"
+          >
+            {{item.name}}
+          </el-menu-item>
+        </el-menu>
+      </el-col>
+      <!-- 中间 -->
+      <el-col :md="16">
+        <div class="blog-center">
+          <div class="banner">
+            <el-carousel height="230px">
+              <el-carousel-item
+                v-for="item in mainAdvertList"
+                :key="item.id"
+              >
+                <a
+                  :href="item.advertUrl"
+                  :target="item.advertTarget"
+                >
+                  <img :src="item.imageUrl">
+                </a>
+              </el-carousel-item>
+            </el-carousel>
+          </div>
+          <!-- 文章列表 -->
+          <nuxt-child />
+        </div>
+      </el-col>
+      <!-- 右侧广告区 -->
+      <el-col
+        class="hidden-sm-and-down"
+        :md="5"
+      >
+        <el-card
+          class="right-card"
+          shadow="hover"
+          :body-style="{padding: '10px'}"
         >
-          GitHub
-        </a>
-      </div>
-    </div>
+          <p>课程推荐</p>
+          <el-carousel height="210px">
+            <el-carousel-item
+              v-for="item in courseAdvertList"
+              :key="item.id"
+            >
+              <a
+                :href="item.advertUrl"
+                :target="item.advertTarget"
+              >
+                <img :src="item.imageUrl">
+                <span>{{item.title}}</span>
+              </a>
+            </el-carousel-item>
+          </el-carousel>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  layout: 'index',
+  async asyncData ({ app }) {
+    // 1. 查询技术频道
+    const res = await app.$getCategoryList()
+    const { data: categoryList } = res
+    // console.log(res, 111111)
+    // console.log('index-asyncData', 333333)
+    // 2. 查询滚动图广告
+    const { data: mainAdvertList } = await app.$getAdvertList(1)
+    // 3. 查询课程推荐广告
+    const { data: courseAdvertList } = await app.$getAdvertList(2)
+    return { categoryList, mainAdvertList, courseAdvertList }
+  },
+
+}
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
+<style scoped>
+/* 局部引入外部样式文件 */
+@import "@/assets/css/blog/index.css";
 </style>

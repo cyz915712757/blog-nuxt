@@ -17,12 +17,19 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'element-ui/lib/theme-chalk/index.css'
+    'element-ui/lib/theme-chalk/index.css',
+    // 项目自定义的全局样式
+    '@/assets/css/global.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
+    '@/plugins/interceptor.js',
+    '@/api/article.js',
+    '@/api/common.js',
+    '@/api/question.js',
+    '@/api/user.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -34,7 +41,21 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    'cookie-universal-nuxt', // 针对服务端操作cookie
   ],
+  axios: {
+    proxy: true, //开启代理转发
+    prefix: '/api' // 请求接口添加前缀 /api   /test > /api/test
+  },
+
+  proxy: { // 代理转发
+    '/api': {
+      // /api/test > http://mengxuegu.com:7300/mock/5ee6e6a9e56c02034c4c2e89/blog-web/test
+      target: 'http://mengxuegu.com:7300/mock/5ee6e6a9e56c02034c4c2e89/blog-web',
+      pathRewrite: { '^/api': '' }
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
