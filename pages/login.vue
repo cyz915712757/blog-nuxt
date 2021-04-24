@@ -115,9 +115,8 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          console.log(this.$store, 2222)
-          this.$store.dispatch('login', this.loginData).then(() => {
-            this.$router.replace({ path: '/home' })
+          this.$store.dispatch('loginPage', this.loginData).then(() => {
+            this.$router.replace('/')
             this.loading = false
           }).catch(() => {
             this.loading = false

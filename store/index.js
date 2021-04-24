@@ -1,8 +1,11 @@
+import Cookies from 'js-cookie'
 // nuxt 声明状态，必须是function
 const state = () => ({
   userInfo: null,
   accessToken: null,
-  refreshToken: null
+  refreshToken: null,
+  username: '',
+  password: ''
 })
 
 // 改变状态值
@@ -14,6 +17,10 @@ const mutations = {
     state.userInfo = null
     state.accessToken = null
     state.refreshToken = null
+    state.username = ''
+    state.password = ''
+    Cookies.remove('username')
+    Cookies.remove('password')
   },
 
   // 更新状态
@@ -21,6 +28,11 @@ const mutations = {
     state.userInfo = data.userInfo
     state.accessToken = data.accessToken
     state.refreshToken = data.refreshToken
+    state.username = data.username
+    state.password = data.password
+
+    Cookies.set('username', data.username)
+    Cookies.set('password', data.password)
   }
 
 }
@@ -35,19 +47,25 @@ const actions = {
     // data.userInfo = app.$cookies.get('userInfo')
     // data.accessToken = app.$cookies.get('accessToken')
     // data.refreshToken = app.$cookies.get('refreshToken')
-    // console.log('data', data)
+    data.username = app.$cookies.get('username')
+    data.password = app.$cookies.get('password')
+    console.log(data, 8888)
     // 更新状态值
     commit('UPDATE_ALL_STATE', data)
   },
 
   // 跳转登录页
-  LoginPage ({ commit }) {
-    // 重置用户状态
-    commit('RESET_USER_STATE')
+  loginPage ({ commit }, data) {
+    console.log(data, '11111111-login')
+    return new Promise((resolve, reject) => {
+      // 更新用户信息
+      commit('UPDATE_ALL_STATE', data)
+      return resolve()
+    })
 
   },
 
-  LogoutPage ({ commit }) {
+  logoutPage ({ commit }) {
     // 1. 重置状态
     commit('RESET_USER_STATE')
   }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="edit-form">
     <el-form
       :rules="rules"
       ref="formData"
@@ -118,6 +118,10 @@ export default {
 </script>
 
 <style>
+.edit-form {
+  width: 500px;
+  margin: 50px 0 0 100px;
+}
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;

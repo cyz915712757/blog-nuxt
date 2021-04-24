@@ -50,14 +50,14 @@
           <div class="nav-sign">
             <el-button type="text">管理后台</el-button>
             <el-button
-              v-if="!userInfo"
+              v-if="!username"
               type="text"
               @click="hanldeLogin"
             >登录</el-button>
             <el-button
-              v-if="!userInfo"
+              v-else
               type="primary"
-              @click="$store.dispatch('LogoutPage')"
+              @click="$store.dispatch('logoutPage')"
               size="small"
               round
             >退出</el-button>
@@ -71,8 +71,8 @@
 export default {
 
   computed: {
-    userInfo () {
-      return this.$store.state.userInfo
+    username () {
+      return this.$store.state.username
     },
     // 高亮显示哪个导航标签
     defaultActive () {
@@ -100,9 +100,9 @@ export default {
       window.location = '/login'
     },
     handleCommand (command) {
-      if (!this.userInfo) {
+      if (!this.name) {
         // 如果没有登录，则跳转登录页
-        return this.$store.dispatch('LoginPage')
+        this.hanldeLogin()
       }
 
       switch (command) {

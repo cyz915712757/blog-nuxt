@@ -25,6 +25,7 @@
                   :to="{path: '/question/edit', query: {id: data.id} }"
                   class="nickname"
                 >
+                  <!-- target="_blank" -->
                   &nbsp; &nbsp; 编辑
                 </nuxt-link>
               </div>
@@ -67,16 +68,8 @@ import '@/assets/css/md/github-min.css'
 
 import { dateFormat } from '@/utils/date.js'
 
-// 固钉
-// import MxgAffix from '@/components/common/Affix/index.vue'
-// // 文章目录
-// import MxgDirectory from '@/components/common/Directory/index.vue'
-
-// // 评论组件
-// import MxgComment from '@/components/common/Comment'
 export default {
-  // components: { MxgAffix, MxgDirectory, MxgComment },
-
+  layout: 'detail',
   // 校验id为数值才可访问此组件
   // validate ({ params }) {
   //   return /^\d+$/.test(params.id)

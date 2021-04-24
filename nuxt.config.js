@@ -50,8 +50,7 @@ export default {
   },
 
   proxy: { // 代理转发
-    '/api': {
-      // /api/test > http://mengxuegu.com:7300/mock/5ee6e6a9e56c02034c4c2e89/blog-web/test
+    '/api': { // /api/test > http://mengxuegu.com:7300/mock/5ee6e6a9e56c02034c4c2e89/blog-web/test
       target: 'http://mengxuegu.com:7300/mock/5ee6e6a9e56c02034c4c2e89/blog-web',
       pathRewrite: { '^/api': '' }
     }

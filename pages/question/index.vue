@@ -46,7 +46,7 @@
 import List from '@/components/question/List'
 
 export default {
-  layout: 'question',
+  layout: 'index',
   head () {
     return {
       title: '问答'
